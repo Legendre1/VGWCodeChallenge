@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: SimplePurchase_A
   m_EditorClassIdentifier: 
   visible_name: Simple Purchase A
+  description: This is a simple purchase. Buy it.
   purchase_key: simple_a
   order_priority: 10
   currency_cost: 100

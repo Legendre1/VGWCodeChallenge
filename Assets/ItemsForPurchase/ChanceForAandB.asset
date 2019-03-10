@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Name: ChanceForAandB
   m_EditorClassIdentifier: 
   visible_name: Gamble for A and B
+  description: Coin flip to win Simple Purchase A, then coin flip for Simple Purchase
+    B. Take a chance!
   purchase_key: gamble_ab
   order_priority: 30
   currency_cost: 50

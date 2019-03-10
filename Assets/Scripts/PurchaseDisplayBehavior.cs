@@ -15,6 +15,7 @@ public class PurchaseDisplayBehavior : MonoBehaviour {
 
 	private PurchaseUIManager m_ui_manager;
 	private PurchasableItem m_item_data;
+	private PurchaseSystemManager m_purchase_system;
 
 	public void constructDisplay(PurchasableItem item_data, PurchaseUIManager ui_manager)
 	{
@@ -27,17 +28,32 @@ public class PurchaseDisplayBehavior : MonoBehaviour {
 		setCostText();
 	}
 
+	public void onButtonPressed()
+	{
+
+	}
+
 	private void setCostText()
 	{
-		int currency_owned = m_ui_manager.CurrencyOwned;
+		getPurchaseSystemManager();
 
-		if(currency_owned >= m_item_data.currency_cost)
+		bool can_afford = m_purchase_system.canAffordPurchase(m_item_data);
+
+		if(can_afford)
 		{
 			m_cost_text.text = string.Format(m_cost_string, m_item_data.currency_cost.ToString());
 		}
 		else
 		{
 			m_cost_text.text = m_insufficient_funds_string;
+		}
+	}
+
+	private void getPurchaseSystemManager()
+	{
+		if(m_purchase_system == null)
+		{
+			m_purchase_system = PurchaseSystemManager.GetInstance();
 		}
 	}
 }

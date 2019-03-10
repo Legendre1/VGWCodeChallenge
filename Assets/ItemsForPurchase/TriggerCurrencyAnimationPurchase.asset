@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: TriggerCurrencyAnimationPurchase
   m_EditorClassIdentifier: 
   visible_name: Purchase With Animation
+  description: This purchase will make the currency display dance.
   purchase_key: purchase_with_anim
   order_priority: 40
   currency_cost: 100

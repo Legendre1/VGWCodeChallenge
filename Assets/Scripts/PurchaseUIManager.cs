@@ -9,31 +9,19 @@ public class PurchaseUIManager : MonoBehaviour {
 	public PurchaseSystemManager m_purchase_manager;
 	public PurchaseScrollviewManager m_scrollview_manager;
 
-	private int m_currency_owned;
+	
 	
 	#region Mono Methods
 
 	void Start () 
 	{
-		//ideally this would cal into some sort of local or server side userdata manager, for now Ill just call into Unity playerPrefs directly
-		m_currency_owned = PlayerPrefs.GetInt("owned_currency");
 		updateCurrencyDisplay();
 		constructPurchaseScrollview();
 	}
 	
 	#endregion
 
-	#region Public Properties
-
-	public int CurrencyOwned
-	{
-		get
-		{
-			return m_currency_owned;
-		}
-	}
-
-	#endregion
+	
 
 	#region Display Methods
 
@@ -45,7 +33,7 @@ public class PurchaseUIManager : MonoBehaviour {
 
 	private void updateCurrencyDisplay()
 	{
-		m_currency_display.text = m_currency_owned.ToString();
+		m_currency_display.text = m_purchase_manager.CurrencyOwned.ToString();
 	}
 
 	#endregion 
@@ -55,23 +43,13 @@ public class PurchaseUIManager : MonoBehaviour {
 
 	public void debugFreeMoney()
 	{
-		m_currency_owned += 1000;
-		writeCurrencyToUserdata();
+		m_purchase_manager.debugAddCurrency(1000);
 		updateCurrencyDisplay();
 	}
 
 	public void debugUpdateScrollview()
 	{
 		constructPurchaseScrollview();
-	}
-
-	#endregion
-
-	#region Internal Utility Methods
-
-	private void writeCurrencyToUserdata()
-	{
-		PlayerPrefs.SetInt("owned_currency", m_currency_owned);
 	}
 
 	#endregion
