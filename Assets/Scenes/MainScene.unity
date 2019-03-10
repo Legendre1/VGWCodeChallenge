@@ -433,10 +433,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 592385949}
+  - component: {fileID: 592385953}
   - component: {fileID: 592385952}
   - component: {fileID: 592385951}
   - component: {fileID: 592385950}
-  - component: {fileID: 592385953}
   m_Layer: 5
   m_Name: Scroll View
   m_TagString: Untagged
@@ -509,7 +509,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 195281685}
-  m_Horizontal: 1
+  m_Horizontal: 0
   m_Vertical: 1
   m_MovementType: 1
   m_Elasticity: 0.1
@@ -539,8 +539,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d986f129eab08d42bb4890616373841, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ui_manager: {fileID: 0}
-  m_content_root_transform: {fileID: 0}
+  m_ui_manager: {fileID: 1454515334}
+  m_content_root_transform: {fileID: 195281685}
+  m_purchase_entry_prefab: {fileID: 1652046782404106, guid: fb4cbb19197f269429dafcf22d0204c9,
+    type: 2}
+  m_entry_vertical_spacing: 70
 --- !u!1 &645251897
 GameObject:
   m_ObjectHideFlags: 0
@@ -1044,7 +1047,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 645251898}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.532
+  m_Size: 0.642
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1168,7 +1171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_currency_display: {fileID: 1734496539}
   m_purchase_manager: {fileID: 250038663}
-  m_scrollview_manager: {fileID: 0}
+  m_scrollview_manager: {fileID: 592385953}
 --- !u!1 &1459869010
 GameObject:
   m_ObjectHideFlags: 0
@@ -1294,7 +1297,7 @@ Prefab:
     - target: {fileID: 224022373909468770, guid: fb4cbb19197f269429dafcf22d0204c9,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 113.3
+      value: -36.699997
       objectReference: {fileID: 0}
     - target: {fileID: 224022373909468770, guid: fb4cbb19197f269429dafcf22d0204c9,
         type: 2}
@@ -1304,7 +1307,7 @@ Prefab:
     - target: {fileID: 224022373909468770, guid: fb4cbb19197f269429dafcf22d0204c9,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 58.4
+      value: 58.399994
       objectReference: {fileID: 0}
     - target: {fileID: 224022373909468770, guid: fb4cbb19197f269429dafcf22d0204c9,
         type: 2}
@@ -1314,7 +1317,7 @@ Prefab:
     - target: {fileID: 224022373909468770, guid: fb4cbb19197f269429dafcf22d0204c9,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224022373909468770, guid: fb4cbb19197f269429dafcf22d0204c9,
         type: 2}
@@ -1324,7 +1327,7 @@ Prefab:
     - target: {fileID: 224022373909468770, guid: fb4cbb19197f269429dafcf22d0204c9,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224022373909468770, guid: fb4cbb19197f269429dafcf22d0204c9,
         type: 2}
@@ -1335,6 +1338,10 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1652046782404106, guid: fb4cbb19197f269429dafcf22d0204c9, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fb4cbb19197f269429dafcf22d0204c9, type: 2}

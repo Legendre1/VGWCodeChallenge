@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 
 [CreateAssetMenu(menuName = "Purchasable Item")]
-public class PurchasableItem : ScriptableObject {
+public class PurchasableItem : ScriptableObject, IComparable {
 
 	//mandatory vars (these must be defined for all purchasable items)
 	public string visible_name;//Item name seen by the user
@@ -44,4 +44,12 @@ public class PurchasableItem : ScriptableObject {
 		public float global_discount;//normalized discount applied to al items
 		public int discount_duration_minutes;//duration in minutes after which the global discount expires
 	}
+
+
+	//IComparable Implementation
+	public int CompareTo(object other)
+	{
+		return this.order_priority.CompareTo(((PurchasableItem)other).order_priority);
+	}
+
 }

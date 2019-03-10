@@ -25,6 +25,9 @@ public class PurchaseSystemManager : MonoBehaviour {
 
 			
 			string unique_purchase_key = purchase.purchase_key;
+			//make sure there isnt already a purchase item with this unique id
+
+			purchase_list.Add(purchase);
 
 		}
 
