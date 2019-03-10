@@ -8,7 +8,8 @@ public class PurchasableItem : ScriptableObject {
 
 	//mandatory vars (these must be defined for all purchasable items)
 	public string visible_name;//Item name seen by the user
-	public string purchase_key;//unique name used to correlate with store backend etc
+	public string description;//Item description, user visible
+	public string purchase_key;//unique name used to correlate with store backend etc. not user visible
 	public float order_priority;//lower numbers show in the list first. negative values allowed, but typicaly reserved for promotions etc
 	public int currency_cost;//the cost, in game currency, to purchase this item
 
