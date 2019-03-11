@@ -46,18 +46,37 @@ public class PurchaseSystemManager : MonoBehaviour {
 
 		foreach(PurchasableItem purchase in m_available_purchases)
 		{
-			//if the purchase data is nul for some reason, just skip it
+			bool purchase_entry_is_acceptable = true;
+
+			//if the purchase data is null for some reason, just skip it
 			if(purchase == null)
 			{
-				continue;
+				Debug.Log("Null entry, skipping");
+				purchase_entry_is_acceptable = false;
 			}
 
 			
-			string unique_purchase_key = purchase.purchase_key;
-			//make sure there isnt already a purchase item with this unique id
+			if(purchase_entry_is_acceptable)
+			{
+				string unique_purchase_key = purchase.purchase_key;
+				//make sure there isnt already a purchase item with this unique id
+				foreach(PurchasableItem compare_purchase in purchase_list)
+				{
+					if(compare_purchase.purchase_key == unique_purchase_key)
+					{
+						Debug.LogError("Detected a duplicate entry, skipping");
+						purchase_entry_is_acceptable = false;
+					}
+				}
 
-			purchase_list.Add(purchase);
+				
+			}
+			
 
+			if(purchase_entry_is_acceptable)
+			{
+				purchase_list.Add(purchase);
+			}
 		}
 
 		return purchase_list;		
