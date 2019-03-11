@@ -17,7 +17,7 @@ public class PurchaseScrollviewManager : MonoBehaviour {
 	public void refreshScrollview(List<PurchasableItem> purchasable_items)
 	{
 		destroyExistingScrollview();
-		
+
 		m_purchase_elements = new List<PurchaseDisplayBehavior>();
 
 		int item_count = purchasable_items.Count;
@@ -56,7 +56,7 @@ public class PurchaseScrollviewManager : MonoBehaviour {
 
 		for(int n = 0; n < m_purchase_elements.Count; n++)
 		{
-			Destroy(m_purchase_elements[n]);
+			Destroy(m_purchase_elements[n].gameObject);
 		}
 		m_purchase_elements.Clear();
 	}
@@ -68,6 +68,8 @@ public class PurchaseScrollviewManager : MonoBehaviour {
 		RectTransform element_transform = element_go.GetComponent<RectTransform>();
 		element_transform.SetParent(m_content_root_transform);
 		element_transform.anchoredPosition = new Vector2(0, spawn_cursor);
+		element_transform.SetLeft(5);
+		element_transform.SetRight(5);
 
 		PurchaseDisplayBehavior element_display_behavior = element_go.GetComponent<PurchaseDisplayBehavior>();
 		element_display_behavior.constructDisplay(item_data, m_ui_manager);
