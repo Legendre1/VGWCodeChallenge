@@ -8,8 +8,9 @@ public class PurchaseUIManager : MonoBehaviour {
 	public Text m_currency_display;
 	public PurchaseSystemManager m_purchase_manager;
 	public PurchaseScrollviewManager m_scrollview_manager;
+	public ModalSystemManager m_modal_manager;
 
-	
+	public string m_purchase_confirmation_text;//this would ideally be set by the backend or some external data definition
 	
 	#region Mono Methods
 
@@ -21,7 +22,18 @@ public class PurchaseUIManager : MonoBehaviour {
 	
 	#endregion
 
-	
+	#region Purchase Reaction
+
+	public void showPurchaseResults(PurchasableItem purchased_item)
+	{
+		//called when an item is purchased succesfuly, show a little UI teling the user the purchase went through
+		string concatenated_purchase_confirmation = string.Format(m_purchase_confirmation_text, purchased_item.visible_name);
+		showInformativeModal(concatenated_purchase_confirmation);
+
+		updateCurrencyDisplay();
+	}
+
+	#endregion
 
 	#region Display Methods
 
@@ -50,6 +62,16 @@ public class PurchaseUIManager : MonoBehaviour {
 	public void debugUpdateScrollview()
 	{
 		constructPurchaseScrollview();
+	}
+
+	#endregion
+
+	#region Information Modal Subsystem
+
+	public void showInformativeModal(string modal_content)
+	{
+		//this shows a single button modal display for purchase results info etc
+		m_modal_manager.showSingleButtonModal(modal_content);
 	}
 
 	#endregion

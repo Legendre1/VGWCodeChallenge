@@ -76,9 +76,27 @@ public class PurchaseSystemManager : MonoBehaviour {
 		return false;
 	}
 
-	public void processPurchase(PurchasableItem item_purchased)
+	public bool processPurchase(PurchasableItem item_purchased)
 	{
-		//this handles all backend aspects of the purchase, including the awarding of bonuses, application of global discounts [System.Serializable]
+		//this handles all backend aspects of the purchase, including the awarding of bonuses, application of global discounts 
+		//returns true if purchase is successful, otherwise false
+		if(!canAffordPurchase(item_purchased))
+		{
+			Debug.Log("Not enough currency to buy this");
+			return false;
+		}
+
+		//charge the user for the purchase
+		m_currency_owned -= item_purchased.currency_cost;
+		pushCurrencyToBackend();
+		
+		//apply any global discounts this purchase grants
+
+		//roll for and award and secondary items this purchase has a chance of granting
+
+		//if the purchase has some other kind of payout, like another currency, it would be handled here
+
+		return true;
 		
 	}
 

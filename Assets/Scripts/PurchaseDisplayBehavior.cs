@@ -30,7 +30,12 @@ public class PurchaseDisplayBehavior : MonoBehaviour {
 
 	public void onButtonPressed()
 	{
+		getPurchaseSystemManager();
 
+		if(m_purchase_system.processPurchase(m_item_data))
+		{
+			m_ui_manager.showPurchaseResults(m_item_data);
+		}
 	}
 
 	private void setCostText()
