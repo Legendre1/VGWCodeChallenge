@@ -14,7 +14,6 @@ public class PurchaseScrollviewManager : MonoBehaviour {
 
 	public void constructScrollview(List<PurchasableItem> purchasable_items)
 	{
-		Debug.Log("Constructing scrollview");
 
 		int item_count = purchasable_items.Count;
 

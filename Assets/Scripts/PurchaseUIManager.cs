@@ -10,7 +10,11 @@ public class PurchaseUIManager : MonoBehaviour {
 	public PurchaseScrollviewManager m_scrollview_manager;
 	public ModalSystemManager m_modal_manager;
 
-	public string m_purchase_confirmation_text;//this would ideally be set by the backend or some external data definition
+	//these would ideally be set by the backend or some external data definition
+	public string m_purchase_confirmation_text;//shown when an item is purchased directly with currency
+	public string m_free_item_confirmation_text;//shown when an item is awarded for free
+	public string m_purchase_failure_text;//shown when a purchase fails
+
 	
 	#region Mono Methods
 
@@ -24,13 +28,25 @@ public class PurchaseUIManager : MonoBehaviour {
 
 	#region Purchase Reaction
 
-	public void showPurchaseResults(PurchasableItem purchased_item)
+	public void showSuccessfulPurchaseResults(PurchasableItem purchased_item)
 	{
 		//called when an item is purchased succesfuly, show a little UI teling the user the purchase went through
 		string concatenated_purchase_confirmation = string.Format(m_purchase_confirmation_text, purchased_item.visible_name);
 		showInformativeModal(concatenated_purchase_confirmation);
 
 		updateCurrencyDisplay();
+	}
+
+	public void showFreeItemRewardedResults(PurchasableItem awarded_item)
+	{
+		//called when an item is awarded for free, as a result of a random reward from another purchase
+		string concatenated_purchase_confirmation = string.Format(m_free_item_confirmation_text, awarded_item.visible_name);
+		showInformativeModal(concatenated_purchase_confirmation);
+	}
+
+	public void showFailedPurchaseResults()
+	{
+		showInformativeModal(m_purchase_failure_text);
 	}
 
 	#endregion

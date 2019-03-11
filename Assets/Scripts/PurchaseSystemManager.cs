@@ -11,6 +11,8 @@ public class PurchaseSystemManager : MonoBehaviour {
 
 	private int m_currency_owned;
 
+	public delegate void AwardedPurchaseCallback(PurchasableItem awarded_item);
+
 	#endregion
 
 	#region Public Properties
@@ -76,7 +78,7 @@ public class PurchaseSystemManager : MonoBehaviour {
 		return false;
 	}
 
-	public bool processPurchase(PurchasableItem item_purchased)
+	public bool processPurchase(PurchasableItem item_purchased, AwardedPurchaseCallback purchase_callback, AwardedPurchaseCallback awarded_callback)
 	{
 		//this handles all backend aspects of the purchase, including the awarding of bonuses, application of global discounts 
 		//returns true if purchase is successful, otherwise false
@@ -89,15 +91,55 @@ public class PurchaseSystemManager : MonoBehaviour {
 		//charge the user for the purchase
 		m_currency_owned -= item_purchased.currency_cost;
 		pushCurrencyToBackend();
-		
+
+		//invoke the callback for this purchase, if any
+		if(purchase_callback != null)
+		{
+			purchase_callback(item_purchased);
+		}
+
 		//apply any global discounts this purchase grants
 
 		//roll for and award and secondary items this purchase has a chance of granting
+		awardSecondaryItems(item_purchased, awarded_callback);
 
 		//if the purchase has some other kind of payout, like another currency, it would be handled here
 
+		
+
 		return true;
 		
+	}
+
+	private void awardSecondaryItems(PurchasableItem item_data, AwardedPurchaseCallback awarded_calback)
+	{
+		List<PurchasableItem.FreeItemOnPurchase> potential_free_items = item_data.possible_free_items;
+
+		for(int n = 0; n < potential_free_items.Count; n++)
+		{
+			PurchasableItem.FreeItemOnPurchase maybe_free_item = potential_free_items[n];
+
+			float randy = Random.Range(0.0f, 1.0f);
+			if(maybe_free_item.chance_for_free_item >= randy)
+			{
+				PurchasableItem free_item = getPurchasableItemByKey(maybe_free_item.free_item_purchase_key);
+				awarded_calback(free_item);
+			}
+		}
+	}
+
+	private PurchasableItem getPurchasableItemByKey(string item_key)
+	{
+		foreach(PurchasableItem item in m_available_purchases)
+		{
+			if(item.purchase_key == item_key)
+			{
+				return item;
+			}
+		}
+
+		Debug.LogError("Item not found with key " + item_key);
+		return null;
 	}
 
 	#endregion

@@ -17,6 +17,7 @@ public class PurchaseDisplayBehavior : MonoBehaviour {
 	private PurchasableItem m_item_data;
 	private PurchaseSystemManager m_purchase_system;
 
+
 	public void constructDisplay(PurchasableItem item_data, PurchaseUIManager ui_manager)
 	{
 		m_ui_manager = ui_manager;
@@ -32,10 +33,24 @@ public class PurchaseDisplayBehavior : MonoBehaviour {
 	{
 		getPurchaseSystemManager();
 
-		if(m_purchase_system.processPurchase(m_item_data))
+		PurchaseSystemManager.AwardedPurchaseCallback paid_purchase_calback = purchaseCallback;
+		PurchaseSystemManager.AwardedPurchaseCallback awarded_item_calback = freeItemCallback;
+
+		if(!m_purchase_system.processPurchase(m_item_data, paid_purchase_calback, awarded_item_calback))
 		{
-			m_ui_manager.showPurchaseResults(m_item_data);
+			//purchase failed for some reason, show a modal informing the user
+			m_ui_manager.showFailedPurchaseResults();
 		}
+	}
+
+	private void purchaseCallback(PurchasableItem item_data)
+	{
+		m_ui_manager.showSuccessfulPurchaseResults(item_data);
+	}
+
+	private void freeItemCallback(PurchasableItem item_data)
+	{
+		m_ui_manager.showFreeItemRewardedResults(item_data);
 	}
 
 	private void setCostText()
