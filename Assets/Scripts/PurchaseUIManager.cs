@@ -22,6 +22,10 @@ public class PurchaseUIManager : MonoBehaviour {
 	{
 		updateCurrencyDisplay();
 		refreshScrollview();
+
+		//subscribe to the discount manager--refresh all UI when discounts change
+		GlobalDiscountManager.OnDiscountsUpdated on_discounts_updated = RefreshAllUI;
+		GlobalDiscountManager.SubscribeToDiscountUpdates(on_discounts_updated);
 	}
 	
 	#endregion

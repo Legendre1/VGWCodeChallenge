@@ -138,9 +138,15 @@ public class PurchaseSystemManager : MonoBehaviour {
 			float randy = Random.Range(0.0f, 1.0f);
 			if(maybe_free_item.chance_for_free_item >= randy)
 			{
+				//successful roll, find the item
 				PurchasableItem free_item = getPurchasableItemByKey(maybe_free_item.free_item_purchase_key);
-				awarded_calback(free_item);
-				awardPayouts(free_item);
+
+				//if it exists, award it and notify the user
+				if(free_item != null)
+				{
+					awarded_calback(free_item);
+					awardPayouts(free_item);
+				}
 
 				//could call this method again if we want the possibility for recursive secondary items. ill avoid for now
 				//awardSecondaryItems(free_item)

@@ -15,9 +15,23 @@ public class GlobalDiscountManager : MonoBehaviour {
 
 	private static List<ActiveDiscount> s_active_discounts;
 	private static float s_calculated_discount_factor;
+	private static GlobalDiscountManager s_instance;
+	private static OnDiscountsUpdated s_on_discounts_updated;
+
+	public static void SubscribeToDiscountUpdates(OnDiscountsUpdated callback)
+	{
+		s_on_discounts_updated += callback;
+	}
 
 	public static float GetDiscountFactor()
 	{
+		if(s_calculated_discount_factor == 0.0f)
+		{
+			//discount factor has never been calculated, initialize its value
+			//could also be handled via script execution order, but this is more foolproof
+			CalculateDiscountFactor();
+		}
+
 		return s_calculated_discount_factor;
 	}
 
@@ -38,7 +52,8 @@ public class GlobalDiscountManager : MonoBehaviour {
 			price_discount_factor *= (1.0f - discount.discount_amount);
 		}
 
-		s_calculated_discount_factor = price_discount_factor;
+		//Dont let the discount factor go below the minimum specified in the instance
+		s_calculated_discount_factor = Mathf.Clamp(price_discount_factor, s_instance.minimum_discount_factor, 1.0f);
 	}
 
 	public static void ApplyDiscount(float discount_amount, float duration_in_minutes)
@@ -59,15 +74,18 @@ public class GlobalDiscountManager : MonoBehaviour {
 		s_active_discounts.Add(new_discount);
 
 		CalculateDiscountFactor();
+		s_on_discounts_updated();
 	}
 
 	//Nonstatic definitions
 
 	public float minimum_discount_factor; //some minimum factor by which prices can be brought down to (i.e. 20%) to prevent abuse
 
+	public delegate void OnDiscountsUpdated();
 
 	void Start()
 	{
+		s_instance = this;
 		CalculateDiscountFactor();
 	}
 
@@ -85,7 +103,7 @@ public class GlobalDiscountManager : MonoBehaviour {
 					Debug.Log("Discount has expired");
 					s_active_discounts.RemoveAt(n);
 					CalculateDiscountFactor();
-					s_calculated_discount_factor = Mathf.Clamp(s_calculated_discount_factor, minimum_discount_factor, 1.0f);
+					s_on_discounts_updated();
 				}
 			}
 		}

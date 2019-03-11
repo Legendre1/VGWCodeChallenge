@@ -66,7 +66,7 @@ public class PurchaseDisplayBehavior : MonoBehaviour {
 
 		if(can_afford)
 		{
-			float discounted_cost = m_item_data.currency_cost * GlobalDiscountManager.GetDiscountFactor();
+			int discounted_cost = Mathf.RoundToInt(m_item_data.currency_cost * GlobalDiscountManager.GetDiscountFactor());
 			m_cost_text.text = string.Format(m_cost_string, discounted_cost.ToString());
 		}
 		else
