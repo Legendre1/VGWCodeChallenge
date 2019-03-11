@@ -12,8 +12,13 @@ public class PurchaseScrollviewManager : MonoBehaviour {
 	public GameObject m_purchase_entry_prefab;
 	public float m_entry_vertical_spacing;
 
-	public void constructScrollview(List<PurchasableItem> purchasable_items)
+	private List<PurchaseDisplayBehavior> m_purchase_elements;
+
+	public void refreshScrollview(List<PurchasableItem> purchasable_items)
 	{
+		destroyExistingScrollview();
+		
+		m_purchase_elements = new List<PurchaseDisplayBehavior>();
 
 		int item_count = purchasable_items.Count;
 
@@ -33,9 +38,27 @@ public class PurchaseScrollviewManager : MonoBehaviour {
 		}
 	}
 
+	public void refreshAvailability()
+	{
+		for(int n = 0; n < m_purchase_elements.Count; n++)
+		{
+			m_purchase_elements[n].refreshAvailability();
+		}
+	}
+
 	private void destroyExistingScrollview()
 	{
+		if(m_purchase_elements == null)
+		{
+			//nothing to destroy
+			return;
+		}
 
+		for(int n = 0; n < m_purchase_elements.Count; n++)
+		{
+			Destroy(m_purchase_elements[n]);
+		}
+		m_purchase_elements.Clear();
 	}
 
 	private void spawnPurchaseElement(PurchasableItem item_data, float spawn_cursor)
@@ -48,6 +71,7 @@ public class PurchaseScrollviewManager : MonoBehaviour {
 
 		PurchaseDisplayBehavior element_display_behavior = element_go.GetComponent<PurchaseDisplayBehavior>();
 		element_display_behavior.constructDisplay(item_data, m_ui_manager);
+		m_purchase_elements.Add(element_display_behavior);
 	}
 
 }

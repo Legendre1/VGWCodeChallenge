@@ -21,7 +21,7 @@ public class PurchaseUIManager : MonoBehaviour {
 	void Start () 
 	{
 		updateCurrencyDisplay();
-		constructPurchaseScrollview();
+		refreshScrollview();
 	}
 	
 	#endregion
@@ -33,7 +33,7 @@ public class PurchaseUIManager : MonoBehaviour {
 		//called when an item is purchased succesfuly, show a little UI teling the user the purchase went through
 		string concatenated_purchase_confirmation = string.Format(m_purchase_confirmation_text, purchased_item.visible_name);
 		showInformativeModal(concatenated_purchase_confirmation);
-
+		refreshPurchaseAvailability();
 		updateCurrencyDisplay();
 	}
 
@@ -53,10 +53,15 @@ public class PurchaseUIManager : MonoBehaviour {
 
 	#region Display Methods
 
-	private void constructPurchaseScrollview()
+	private void refreshScrollview()
 	{
 		List<PurchasableItem> purchase_list = m_purchase_manager.getAvailablePurchases();
-		m_scrollview_manager.constructScrollview(purchase_list);
+		m_scrollview_manager.refreshScrollview(purchase_list);
+	}
+
+	private void refreshPurchaseAvailability()
+	{
+		m_scrollview_manager.refreshAvailability();
 	}
 
 	private void updateCurrencyDisplay()
@@ -72,12 +77,13 @@ public class PurchaseUIManager : MonoBehaviour {
 	public void debugFreeMoney()
 	{
 		m_purchase_manager.debugAddCurrency(1000);
+		refreshPurchaseAvailability();
 		updateCurrencyDisplay();
 	}
 
 	public void debugUpdateScrollview()
 	{
-		constructPurchaseScrollview();
+		refreshScrollview();
 	}
 
 	#endregion
@@ -88,6 +94,22 @@ public class PurchaseUIManager : MonoBehaviour {
 	{
 		//this shows a single button modal display for purchase results info etc
 		m_modal_manager.showSingleButtonModal(modal_content);
+	}
+
+	#endregion
+
+	#region Static Methods
+
+	private static PurchaseUIManager s_ui_manager;
+
+	public static void RefreshAllUI()
+	{
+		if(s_ui_manager == null)
+		{
+			s_ui_manager = FindObjectOfType<PurchaseUIManager>();
+		}
+
+		s_ui_manager.refreshScrollview();
 	}
 
 	#endregion

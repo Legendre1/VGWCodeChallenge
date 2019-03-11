@@ -11,8 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65b45f06fec16c543ae602ca88bd9476, type: 3}
   m_Name: PurchaseDiscount_20
   m_EditorClassIdentifier: 
-  visible_name: 20% off for 5 minutes
-  description: Global discount lasts for 5 minutes. Get it while it's hot!
+  visible_name: 20% off for 60 seconds
+  description: Global discount lasts for 60 seconds. Get it while it's hot!
   purchase_key: discount_20
   order_priority: 60
   currency_cost: 300
@@ -20,4 +20,4 @@ MonoBehaviour:
   possible_free_items: []
   global_discounts:
   - global_discount: 0.2
-    discount_duration_minutes: 5
+    discount_duration_minutes: 1

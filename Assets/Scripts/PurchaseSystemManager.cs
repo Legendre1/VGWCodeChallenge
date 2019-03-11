@@ -69,7 +69,7 @@ public class PurchaseSystemManager : MonoBehaviour {
 
 	public bool canAffordPurchase(PurchasableItem item_data)
 	{
-		int cost = item_data.currency_cost;
+		int cost = Mathf.RoundToInt(item_data.currency_cost * GlobalDiscountManager.GetDiscountFactor());
 
 		if(m_currency_owned >= cost)
 		{
@@ -84,13 +84,16 @@ public class PurchaseSystemManager : MonoBehaviour {
 		//returns true if purchase is successful, otherwise false
 		if(!canAffordPurchase(item_purchased))
 		{
-			Debug.Log("Not enough currency to buy this");
+			Debug.LogError("Not enough currency to buy this");
 			return false;
 		}
 
 		//charge the user for the purchase
-		m_currency_owned -= item_purchased.currency_cost;
+		m_currency_owned -= Mathf.RoundToInt(item_purchased.currency_cost * GlobalDiscountManager.GetDiscountFactor());
 		pushCurrencyToBackend();
+
+		//give any payouts to the user (discounts etc)
+		awardPayouts(item_purchased);
 
 		//invoke the callback for this purchase, if any
 		if(purchase_callback != null)
@@ -98,14 +101,8 @@ public class PurchaseSystemManager : MonoBehaviour {
 			purchase_callback(item_purchased);
 		}
 
-		//apply any global discounts this purchase grants
-
 		//roll for and award and secondary items this purchase has a chance of granting
 		awardSecondaryItems(item_purchased, awarded_callback);
-
-		//if the purchase has some other kind of payout, like another currency, it would be handled here
-
-		
 
 		return true;
 		
@@ -124,8 +121,23 @@ public class PurchaseSystemManager : MonoBehaviour {
 			{
 				PurchasableItem free_item = getPurchasableItemByKey(maybe_free_item.free_item_purchase_key);
 				awarded_calback(free_item);
+				awardPayouts(free_item);
+
+				//could call this method again if we want the possibility for recursive secondary items. ill avoid for now
+				//awardSecondaryItems(free_item)
 			}
 		}
+	}
+
+	private void awardPayouts(PurchasableItem item_data)
+	{
+		//apply any global discounts this purchase grants
+		foreach(PurchasableItem.GlobalDiscountOnPurchase discount_on_purchase in item_data.global_discounts)
+		{
+			GlobalDiscountManager.ApplyDiscount(discount_on_purchase.global_discount, discount_on_purchase.discount_duration_minutes);
+		}
+
+		//if the purchase has some other kind of payout, like a premium currency, it would be handled here
 	}
 
 	private PurchasableItem getPurchasableItemByKey(string item_key)
