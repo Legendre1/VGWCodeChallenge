@@ -17,7 +17,7 @@ MonoBehaviour:
   order_priority: 40
   currency_cost: 100
   animation_triggers:
-  - animator_name: currency_display
+  - animator_name: CurrencyPanel
     animator_trigger_param: dance
   possible_free_items: []
   global_discounts: []

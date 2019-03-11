@@ -1473,7 +1473,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 645251898}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.8686667
+  m_Size: 0.87200004
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1612,6 +1612,7 @@ GameObject:
   - component: {fileID: 1459869011}
   - component: {fileID: 1459869013}
   - component: {fileID: 1459869012}
+  - component: {fileID: 1459869014}
   m_Layer: 5
   m_Name: CurrencyPanel
   m_TagString: Untagged
@@ -1672,6 +1673,23 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1459869010}
+--- !u!95 &1459869014
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1459869010}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 621a4e418667eab409ba39f48f64acea, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1001 &1469688289
 Prefab:
   m_ObjectHideFlags: 0
@@ -1885,7 +1903,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minimum_discount_factor: 0.5
-  test_val: 0
 --- !u!4 &1702863542
 Transform:
   m_ObjectHideFlags: 0

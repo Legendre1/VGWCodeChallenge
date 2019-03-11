@@ -43,7 +43,7 @@ public class GlobalDiscountManager : MonoBehaviour {
 
 	public static void ApplyDiscount(float discount_amount, float duration_in_minutes)
 	{
-		//idealy these discounts would be serialized out to userdata but thats way too much work for now
+		//ideally these discounts would be serialized out to userdata but thats way too much work for now
 		if(s_active_discounts == null)
 		{
 			s_active_discounts = new List<ActiveDiscount>();
@@ -64,7 +64,7 @@ public class GlobalDiscountManager : MonoBehaviour {
 	//Nonstatic definitions
 
 	public float minimum_discount_factor; //some minimum factor by which prices can be brought down to (i.e. 20%) to prevent abuse
-	public float test_val;
+
 
 	void Start()
 	{
@@ -89,6 +89,5 @@ public class GlobalDiscountManager : MonoBehaviour {
 				}
 			}
 		}
-		test_val = s_calculated_discount_factor;
 	}
 }
