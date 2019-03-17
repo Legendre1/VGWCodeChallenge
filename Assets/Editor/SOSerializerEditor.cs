@@ -17,6 +17,9 @@ public class SOSerializerEditor : Editor {
 			myBehavior.serializeToTextFile();
 		}
 
-
+		if(GUILayout.Button("Deserialize"))
+		{
+			myBehavior.deSerializeFromTextFile();
+		}
 	}
 }

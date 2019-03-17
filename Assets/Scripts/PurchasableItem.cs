@@ -15,35 +15,27 @@ public class PurchasableItem :  IComparable {
 
 
 	//optional vars (these may or may not be defined for a given purchase)
-	public List<AnimationTriggerOnPurchase> animation_triggers;
-	public List<FreeItemOnPurchase> possible_free_items;
-	public List<GlobalDiscountOnPurchase> global_discounts;
-
+	public List<MethodCallsOnPurchase> on_purchase_methods;
 
 
 
 	//Subclasses (these could be defined in their own files, but for brevity I wil define them here)
 
 	[System.Serializable]
-	public class AnimationTriggerOnPurchase
+	public class MethodCallsOnPurchase
 	{
-		public string animator_name;//name of the scene object to be animated
-		public string animator_trigger_param;//name of the animator (trigger) parameter to invoke
+		public string class_name;//name of the class to call in to
+		public string method_name;//name of the method to call
+		public bool static_method;//if true, cal a static method, if false, call a (presumably singleton) instance method
+
+		//Method parameters. Could break it down even more than this if we want more versatility, but this should handle 90% of practical use cases, I think
+		public string[] string_parameters;
+		public int[] int_parameters;
+		public float[] float_parameters;
+
 	}
 
-	[System.Serializable]
-	public class FreeItemOnPurchase
-	{
-		public float chance_for_free_item;//normalized chance to recieve a free item;
-		public string free_item_purchase_key;//(unique) purchase key of item that might be won
-	}
-
-	[System.Serializable]
-	public class GlobalDiscountOnPurchase
-	{
-		public float global_discount;//normalized discount applied to al items
-		public int discount_duration_minutes;//duration in minutes after which the global discount expires
-	}
+	
 
 
 	//IComparable Implementation
