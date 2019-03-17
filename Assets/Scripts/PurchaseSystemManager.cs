@@ -11,6 +11,8 @@ public class PurchaseSystemManager : MonoBehaviour {
 	
 	//this data is injected externally using the purchase modification methods below
 	private Dictionary<string, PurchasableItem> m_purchase_dictionary;
+	//this member var list is reused each time getAvailablePurchases is called
+	private List<PurchasableItem> m_purchase_list;
 
 	private int m_currency_owned;
 
@@ -34,6 +36,7 @@ public class PurchaseSystemManager : MonoBehaviour {
 	void Start()
 	{
 		m_purchase_dictionary = new Dictionary<string, PurchasableItem>();
+		m_purchase_list = new List<PurchasableItem>();
 		s_purchase_system_manager = this;
 		pullCurrencyFromBackend();
 	}
@@ -68,7 +71,37 @@ public class PurchaseSystemManager : MonoBehaviour {
 		}
 	}
 
+	//New Linq implemenatation, starting with the improved dictionary for purchase data storage
+	//Not sure of complexity as I am unfamiliar with Linq implementation and queries generally
+	//It is certainly faster than the old O(n^2) implementation now that it does not need to check for duplicates
 	public List<PurchasableItem> getAvailablePurchases()
+	{
+		//rather than looking directly at the m_purchase_dictionary, this method constructs and returns a list, and does a little error checking
+		//to avoid handing off bad data to the UI system or whatever else asks for it
+		
+		//duplicate checking is no longer needed since duplicates are impossible in the new dictionary implementation.
+		//if a duplicate is added using addOrModifyPurchase it is treated as a modification and overwrites the existing entry
+
+		//set up the query to filter out null entries
+		IEnumerable<KeyValuePair<string, PurchasableItem>> queryPurchases = from purchase_data in m_purchase_dictionary
+                           where  purchase_data.Value != null
+                           select purchase_data;
+
+
+		//by reusing this list I should cut down on garbage creation. Is this what you wanted with "no local variables?"
+		m_purchase_list.Clear();
+
+		//execute the query and add the results to the list
+		foreach(KeyValuePair<string, PurchasableItem> kv in queryPurchases)
+		{
+			m_purchase_list.Add(kv.Value);
+		}
+
+		return m_purchase_list;		
+	}
+
+	//Old implementation. Complexity was O(n^2) due to the duplicate entry check
+	public List<PurchasableItem> getAvailablePurchases_OldVersion()
 	{
 		//rather than looking directly at the m_available_purchases array, this method returns a nice clean list, and does a little error checking
 		//to avoid handing off bad data to the UI system or whatever else asks for it
@@ -207,10 +240,10 @@ public class PurchaseSystemManager : MonoBehaviour {
 		}
 	}
 
-	//this var doesnt do anything, I am keeping it around so I can write the Linq version of the getPurchasableItem method as requested
+	//this var doesnt do anything anymore, I am keeping it around so I can write the Linq version of the getPurchasableItem method as requested
 	private PurchasableItem[] m_available_purchases;
 
-	//As requested, Linq implementation. You asked me not to use a local variable, I'm hoping this is what you were getting at
+	//As requested, Linq implementation. You asked me not to use local variables at all, I'm hoping this is what you were getting at
 	public PurchasableItem getPurchasableItemByKeyUsingLinq(string item_key)
 	{
 		return ( from purchase in m_available_purchases
@@ -219,19 +252,19 @@ public class PurchaseSystemManager : MonoBehaviour {
 	} 
 
 	//Original implementation. Complexity is O(n)
-	// private PurchasableItem getPurchasableItemByKey(string item_key)
-	// {
-	// 	foreach(PurchasableItem item in m_available_purchases)
-	// 	{
-	// 		if(item.purchase_key == item_key)
-	// 		{
-	// 			return item;
-	// 		}
-	// 	}
+	private PurchasableItem getPurchasableItemByKey_OldVersion(string item_key)
+	{
+		foreach(PurchasableItem item in m_available_purchases)
+		{
+			if(item.purchase_key == item_key)
+			{
+				return item;
+			}
+		}
 
-	// 	Debug.LogError("Item not found with key " + item_key);
-	// 	return null;
-	// }
+		Debug.LogError("Item not found with key " + item_key);
+		return null;
+	}
 
 	#endregion
 
