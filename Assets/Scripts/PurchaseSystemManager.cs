@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -178,6 +178,40 @@ public class PurchaseSystemManager : MonoBehaviour {
 		Debug.LogError("Item not found with key " + item_key);
 		return null;
 	}
+
+	//this var doesnt do anything, I am keeping it around so I can write the Linq version of the getPurchasableItem method as requested
+	private PurchasableItem[] m_available_purchases;
+	//As requested, Linq implementation. You asked me not to use a local variable, I'm hoping the query expression itself doesnt count :D
+	public PurchasableItem getPurchasableItemByKeyUsingLinq(string item_key)
+	{
+
+		IEnumerable<PurchasableItem> filteringQuery =
+							from purchase in m_available_purchases
+							where purchase.purchase_key == item_key
+							select purchase;
+
+		foreach (PurchasableItem purchase in filteringQuery)
+        {
+            return purchase;
+		}
+
+		return null;
+	} 
+
+	//Original implementation. Complexity is O(n)
+	// private PurchasableItem getPurchasableItemByKey(string item_key)
+	// {
+	// 	foreach(PurchasableItem item in m_available_purchases)
+	// 	{
+	// 		if(item.purchase_key == item_key)
+	// 		{
+	// 			return item;
+	// 		}
+	// 	}
+
+	// 	Debug.LogError("Item not found with key " + item_key);
+	// 	return null;
+	// }
 
 	#endregion
 
