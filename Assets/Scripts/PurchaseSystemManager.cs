@@ -1,13 +1,14 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class PurchaseSystemManager : MonoBehaviour {
 
 	#region Member Vars
-	//for this code test, the list of possible purchases is simple a public array that can be modified from the Unity Editor
-	//In a real application, this would be procedurally modified based on server data etc
-	public PurchasableItem[] m_available_purchases;
+	
+	//this data is injected externally using the purchase modification methods below
+	private Dictionary<string, PurchasableItem> m_purchase_dictionary;
 
 	private int m_currency_owned;
 
@@ -30,12 +31,40 @@ public class PurchaseSystemManager : MonoBehaviour {
 	#region Startup
 	void Start()
 	{
+		m_purchase_dictionary = new Dictionary<string, PurchasableItem>();
 		s_purchase_system_manager = this;
 		pullCurrencyFromBackend();
 	}
 	#endregion
 
 	#region Purchase Data Access
+
+	public void addOrModifyPurchase(PurchasableItem purchase_data)
+	{
+		//this can either add new or overwrite existing purchase
+
+		//check for a purchase with this key. if it exists, overwrite
+		PurchasableItem existing_purchase = getPurchasableItemByKey(purchase_data.purchase_key);
+		if(existing_purchase != null)
+		{
+			m_purchase_dictionary[purchase_data.purchase_key] = purchase_data;
+		}
+		else
+		{
+			//purchase with tis key does not exist, add it to the dictionary as a new item
+			m_purchase_dictionary.Add(purchase_data.purchase_key, purchase_data);
+		}
+
+	}
+
+	public void deletePurchase(string purchase_key)
+	{
+		PurchasableItem existing_purchase = getPurchasableItemByKey(purchase_key);
+		if(existing_purchase != null)
+		{
+			m_purchase_dictionary.Remove(purchase_key);
+		}
+	}
 
 	public List<PurchasableItem> getAvailablePurchases()
 	{
@@ -44,8 +73,9 @@ public class PurchaseSystemManager : MonoBehaviour {
 		
 		List<PurchasableItem> purchase_list = new List<PurchasableItem>();
 
-		foreach(PurchasableItem purchase in m_available_purchases)
+		foreach(KeyValuePair<string, PurchasableItem> pair in m_purchase_dictionary)
 		{
+			PurchasableItem purchase = pair.Value;
 			bool purchase_entry_is_acceptable = true;
 
 			//if the purchase data is null for some reason, just skip it
@@ -165,18 +195,19 @@ public class PurchaseSystemManager : MonoBehaviour {
 		//if the purchase has some other kind of payout, like a premium currency, it would be handled here
 	}
 
+	//New implementation which relies on dictionary storage rather than a list. Complexity = O(1)
 	private PurchasableItem getPurchasableItemByKey(string item_key)
 	{
-		foreach(PurchasableItem item in m_available_purchases)
-		{
-			if(item.purchase_key == item_key)
-			{
-				return item;
-			}
-		}
+		PurchasableItem result = null;
 
-		Debug.LogError("Item not found with key " + item_key);
-		return null;
+		if(m_purchase_dictionary.TryGetValue(item_key, out result))
+		{
+			return result;
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	//this var doesnt do anything, I am keeping it around so I can write the Linq version of the getPurchasableItem method as requested
