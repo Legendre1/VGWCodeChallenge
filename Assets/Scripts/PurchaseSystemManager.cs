@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -212,21 +212,13 @@ public class PurchaseSystemManager : MonoBehaviour {
 
 	//this var doesnt do anything, I am keeping it around so I can write the Linq version of the getPurchasableItem method as requested
 	private PurchasableItem[] m_available_purchases;
-	//As requested, Linq implementation. You asked me not to use a local variable, I'm hoping the query expression itself doesnt count :D
+	
+	//As requested, Linq implementation. You asked me not to use a local variable, I'm hoping this is what you were getting at
 	public PurchasableItem getPurchasableItemByKeyUsingLinq(string item_key)
 	{
-
-		IEnumerable<PurchasableItem> filteringQuery =
-							from purchase in m_available_purchases
-							where purchase.purchase_key == item_key
-							select purchase;
-
-		foreach (PurchasableItem purchase in filteringQuery)
-        {
-            return purchase;
-		}
-
-		return null;
+		return ( from purchase in m_available_purchases
+                            where purchase.purchase_key == item_key
+                            select purchase).First();
 	} 
 
 	//Original implementation. Complexity is O(n)
