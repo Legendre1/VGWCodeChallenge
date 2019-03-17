@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEditor;
 
 public class ScriptObjSerializer : MonoBehaviour {
 
@@ -20,6 +21,8 @@ public class ScriptObjSerializer : MonoBehaviour {
         StreamWriter writer = new StreamWriter(path, false);
         writer.WriteLine(serialized_purchase);
         writer.Close();
+
+		AssetDatabase.Refresh();
 	}
 
 	public void deSerializeFromTextFile()
