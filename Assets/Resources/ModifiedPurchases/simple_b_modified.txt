@@ -1,0 +1,1 @@
+{"visible_name":"Modified Simple Purchase B","description":"Modification: Now costs 300.","purchase_key":"simple_b","order_priority":20.0,"currency_cost":300,"animation_triggers":[],"possible_free_items":[],"global_discounts":[]}

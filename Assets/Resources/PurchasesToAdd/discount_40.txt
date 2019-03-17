@@ -1,0 +1,1 @@
+{"visible_name":"40% off for 60 seconds","description":"Global discount lasts for 60 seconds. Get it while it's hot!","purchase_key":"discount_40","order_priority":70.0,"currency_cost":500,"animation_triggers":[],"possible_free_items":[],"global_discounts":[{"global_discount":0.4,"discount_duration_minutes":1}]}
