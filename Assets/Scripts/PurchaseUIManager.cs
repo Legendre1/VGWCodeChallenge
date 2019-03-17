@@ -39,7 +39,6 @@ public class PurchaseUIManager : MonoBehaviour {
 		string concatenated_purchase_confirmation = string.Format(m_purchase_confirmation_text, purchased_item.visible_name);
 		showInformativeModal(concatenated_purchase_confirmation);
 		//trigger any animations the purchase specifies
-		triggerPurchaseAnimations(purchased_item);
 		refreshPurchaseAvailability();
 		updateCurrencyDisplay();
 	}
@@ -50,7 +49,6 @@ public class PurchaseUIManager : MonoBehaviour {
 		string concatenated_purchase_confirmation = string.Format(m_free_item_confirmation_text, awarded_item.visible_name);
 		showInformativeModal(concatenated_purchase_confirmation);
 		//trigger any animations the purchase specifies
-		triggerPurchaseAnimations(awarded_item);
 	}
 
 	public void showFailedPurchaseResults()
@@ -78,17 +76,17 @@ public class PurchaseUIManager : MonoBehaviour {
 		m_currency_display.text = m_purchase_manager.CurrencyOwned.ToString();
 	}
 
-	private void triggerPurchaseAnimations(PurchasableItem item_data)
-	{
-		List<PurchasableItem.AnimationTriggerOnPurchase> animations_on_purchase = item_data.animation_triggers;
+	// private void triggerPurchaseAnimations(PurchasableItem item_data)
+	// {
+	// 	List<PurchasableItem.AnimationTriggerOnPurchase> animations_on_purchase = item_data.animation_triggers;
 
-		for(int n = 0; n < animations_on_purchase.Count; n++)
-		{
-			PurchasableItem.AnimationTriggerOnPurchase animation = animations_on_purchase[n];
-			AnimationTriggerManager.TriggerAnimation(animation.animator_name, animation.animator_trigger_param);
-		}
+	// 	for(int n = 0; n < animations_on_purchase.Count; n++)
+	// 	{
+	// 		PurchasableItem.AnimationTriggerOnPurchase animation = animations_on_purchase[n];
+	// 		AnimationTriggerManager.TriggerAnimation(animation.animator_name, animation.animator_trigger_param);
+	// 	}
 		
-	}
+	// }
 
 	#endregion 
 

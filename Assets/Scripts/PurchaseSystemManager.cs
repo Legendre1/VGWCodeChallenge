@@ -1,7 +1,9 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using System.Linq;
+
 
 public class PurchaseSystemManager : MonoBehaviour {
 
@@ -141,8 +143,12 @@ public class PurchaseSystemManager : MonoBehaviour {
 		m_currency_owned -= Mathf.RoundToInt(item_purchased.currency_cost * GlobalDiscountManager.GetDiscountFactor());
 		pushCurrencyToBackend();
 
-		//give any payouts to the user (discounts etc)
-		awardPayouts(item_purchased);
+		//call any on_purchase methods specified
+		if(item_purchased.on_purchase_methods != null)
+		{
+			MethodCallUtility.CallOnPurchaseMethods(item_purchased.on_purchase_methods);
+		}
+		
 
 		//invoke the callback for this purchase, if any
 		if(purchase_callback != null)
@@ -151,49 +157,40 @@ public class PurchaseSystemManager : MonoBehaviour {
 		}
 
 		//roll for and award and secondary items this purchase has a chance of granting
-		awardSecondaryItems(item_purchased, awarded_callback);
+		//awardSecondaryItems(item_purchased, awarded_callback);
 
 		return true;
 		
 	}
 
-	private void awardSecondaryItems(PurchasableItem item_data, AwardedPurchaseCallback awarded_calback)
-	{
-		List<PurchasableItem.FreeItemOnPurchase> potential_free_items = item_data.possible_free_items;
+	
 
-		for(int n = 0; n < potential_free_items.Count; n++)
-		{
-			PurchasableItem.FreeItemOnPurchase maybe_free_item = potential_free_items[n];
+	// private void awardSecondaryItems(PurchasableItem item_data, AwardedPurchaseCallback awarded_calback)
+	// {
+	// 	List<PurchasableItem.FreeItemOnPurchase> potential_free_items = item_data.possible_free_items;
 
-			float randy = Random.Range(0.0f, 1.0f);
-			if(maybe_free_item.chance_for_free_item >= randy)
-			{
-				//successful roll, find the item
-				PurchasableItem free_item = getPurchasableItemByKey(maybe_free_item.free_item_purchase_key);
+	// 	for(int n = 0; n < potential_free_items.Count; n++)
+	// 	{
+	// 		PurchasableItem.FreeItemOnPurchase maybe_free_item = potential_free_items[n];
 
-				//if it exists, award it and notify the user
-				if(free_item != null)
-				{
-					awarded_calback(free_item);
-					awardPayouts(free_item);
-				}
+	// 		float randy = Random.Range(0.0f, 1.0f);
+	// 		if(maybe_free_item.chance_for_free_item >= randy)
+	// 		{
+	// 			//successful roll, find the item
+	// 			PurchasableItem free_item = getPurchasableItemByKey(maybe_free_item.free_item_purchase_key);
 
-				//could call this method again if we want the possibility for recursive secondary items. ill avoid for now
-				//awardSecondaryItems(free_item)
-			}
-		}
-	}
+	// 			//if it exists, award it and notify the user
+	// 			if(free_item != null)
+	// 			{
+	// 				awarded_calback(free_item);
+	// 				awardPayouts(free_item);
+	// 			}
 
-	private void awardPayouts(PurchasableItem item_data)
-	{
-		//apply any global discounts this purchase grants
-		foreach(PurchasableItem.GlobalDiscountOnPurchase discount_on_purchase in item_data.global_discounts)
-		{
-			GlobalDiscountManager.ApplyDiscount(discount_on_purchase.global_discount, discount_on_purchase.discount_duration_minutes);
-		}
-
-		//if the purchase has some other kind of payout, like a premium currency, it would be handled here
-	}
+	// 			//could call this method again if we want the possibility for recursive secondary items. ill avoid for now
+	// 			//awardSecondaryItems(free_item)
+	// 		}
+	// 	}
+	// }
 
 	//New implementation which relies on dictionary storage rather than a list. Complexity = O(1)
 	private PurchasableItem getPurchasableItemByKey(string item_key)
@@ -212,7 +209,7 @@ public class PurchaseSystemManager : MonoBehaviour {
 
 	//this var doesnt do anything, I am keeping it around so I can write the Linq version of the getPurchasableItem method as requested
 	private PurchasableItem[] m_available_purchases;
-	
+
 	//As requested, Linq implementation. You asked me not to use a local variable, I'm hoping this is what you were getting at
 	public PurchasableItem getPurchasableItemByKeyUsingLinq(string item_key)
 	{

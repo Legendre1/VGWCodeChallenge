@@ -56,8 +56,11 @@ public class GlobalDiscountManager : MonoBehaviour {
 		s_calculated_discount_factor = Mathf.Clamp(price_discount_factor, s_instance.minimum_discount_factor, 1.0f);
 	}
 
-	public static void ApplyDiscount(float discount_amount, float duration_in_minutes)
+	public static void ApplyDiscount(float[] float_params)
 	{
+		float discount_amount = float_params[0];
+		float duration_in_minutes = float_params[1];
+		
 		//ideally these discounts would be serialized out to userdata but thats way too much work for now
 		if(s_active_discounts == null)
 		{

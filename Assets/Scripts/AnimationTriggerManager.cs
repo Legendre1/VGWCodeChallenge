@@ -4,22 +4,23 @@ using UnityEngine;
 
 public static class AnimationTriggerManager  {
 
-	public static void TriggerAnimation(string gameobject_name, string animator_trigger)
+
+	public static void TriggerAnimation(string[] string_params)
 	{
-		GameObject go = GameObject.Find(gameobject_name);
+		GameObject go = GameObject.Find(string_params[0]);
 		if(go == null)
 		{
-			Debug.LogError("Gameobject " + gameobject_name + " not found");
+			Debug.LogError("Gameobject " + string_params[0] + " not found");
 			return;
 		}
 
 		Animator animator = go.GetComponent<Animator>();
 		if(animator == null)
 		{
-			Debug.LogError("Animator not found on object " + gameobject_name);
+			Debug.LogError("Animator not found on object " + string_params[0]);
 			return;
 		}
 
-		animator.SetTrigger(animator_trigger);
+		animator.SetTrigger(string_params[1]);
 	}
 }
