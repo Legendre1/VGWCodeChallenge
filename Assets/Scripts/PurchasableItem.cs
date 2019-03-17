@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-[CreateAssetMenu(menuName = "Purchasable Item")]
-public class PurchasableItem : ScriptableObject, IComparable {
+[System.Serializable]
+public class PurchasableItem :  IComparable {
 
 	//mandatory vars (these must be defined for all purchasable items)
 	public string visible_name;//Item name seen by the user

@@ -1,0 +1,1 @@
+{"visible_name":"Simple Purchase A","description":"This is a simple purchase. Buy it.","purchase_key":"simple_a","order_priority":10.0,"currency_cost":100,"animation_triggers":[],"possible_free_items":[],"global_discounts":[]}

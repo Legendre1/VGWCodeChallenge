@@ -520,6 +520,7 @@ GameObject:
   m_Component:
   - component: {fileID: 250038664}
   - component: {fileID: 250038663}
+  - component: {fileID: 250038665}
   m_Layer: 0
   m_Name: PurchaseSystemManager
   m_TagString: Untagged
@@ -539,11 +540,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_available_purchases:
-  - {fileID: 11400000, guid: f71ab207b810b254494724f15e307cf8, type: 2}
-  - {fileID: 11400000, guid: c86c732f4e9354844a8d9a6001860a46, type: 2}
-  - {fileID: 11400000, guid: f71f46b1819fa954f985057610cd3f79, type: 2}
-  - {fileID: 11400000, guid: 083f0b3a553d2744bbb75225c84f65f5, type: 2}
-  - {fileID: 11400000, guid: d2b050a29e3daf14197f985ea234060a, type: 2}
+  - visible_name: 
+    description: 
+    purchase_key: 
+    order_priority: 0
+    currency_cost: 0
+    animation_triggers: []
+    possible_free_items: []
+    global_discounts: []
+  - visible_name: 
+    description: 
+    purchase_key: 
+    order_priority: 0
+    currency_cost: 0
+    animation_triggers: []
+    possible_free_items: []
+    global_discounts: []
+  - visible_name: 
+    description: 
+    purchase_key: 
+    order_priority: 0
+    currency_cost: 0
+    animation_triggers: []
+    possible_free_items: []
+    global_discounts: []
+  - visible_name: 
+    description: 
+    purchase_key: 
+    order_priority: 0
+    currency_cost: 0
+    animation_triggers: []
+    possible_free_items: []
+    global_discounts: []
+  - visible_name: 
+    description: 
+    purchase_key: 
+    order_priority: 0
+    currency_cost: 0
+    animation_triggers: []
+    possible_free_items: []
+    global_discounts: []
 --- !u!4 &250038664
 Transform:
   m_ObjectHideFlags: 0
@@ -557,6 +593,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &250038665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 250038662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4965df7c97647cd418bf8a509d835040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  client_defined_purchases:
+  - {fileID: 4900000, guid: 152f18ca73979c14f8d306500fad26b9, type: 3}
+  - {fileID: 4900000, guid: 9f77d30e2964ae64ba35dc57f60ca0a5, type: 3}
+  - {fileID: 4900000, guid: e5a57f14287f8104b9607d2229491fc3, type: 3}
+  - {fileID: 4900000, guid: 2972a6430cc628a408b656624d63262c, type: 3}
+  - {fileID: 4900000, guid: b1e7552c08b0d7f4ab06751e43def1c9, type: 3}
+  - {fileID: 4900000, guid: 817d266a240482c4ba5aabf0bd9e374e, type: 3}
 --- !u!1 &301150775
 GameObject:
   m_ObjectHideFlags: 0
@@ -2117,3 +2171,53 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2122850324}
+--- !u!1 &2123497102
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 2123497104}
+  - component: {fileID: 2123497103}
+  m_Layer: 0
+  m_Name: Serializer
+  m_TagString: EditorOnly
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2123497103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2123497102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9b01342c3191f04780572266bd50744, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  script_object:
+    visible_name: 
+    description: 
+    purchase_key: 
+    order_priority: 0
+    currency_cost: 0
+    animation_triggers: []
+    possible_free_items: []
+    global_discounts: []
+  data_location: ClientPurchaseData
+--- !u!4 &2123497104
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2123497102}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 381.36246, y: 45.530994, z: 3.3842325}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
