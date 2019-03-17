@@ -2561,22 +2561,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   script_object:
-    visible_name: 20% off for 60 seconds
-    description: Global discount lasts for 60 seconds. Get it while it's hot!
-    purchase_key: discount_20
-    order_priority: 60
-    currency_cost: 300
+    visible_name: Gamble for A and B
+    description: Coin flip to win Simple Purchase A, then coin flip for Simple Purchase
+      B. Take a chance!
+    purchase_key: gamble_ab
+    order_priority: 30
+    currency_cost: 50
     on_purchase_methods:
-    - class_name: GlobalDiscountManager
-      method_name: ApplyDiscount
+    - class_name: FreeItemAwarder
+      method_name: ChanceToAwardFreeItem
       static_method: 1
-      string_parameters: []
+      string_parameters:
+      - simple_a
       int_parameters: 
       float_parameters:
-      - 0.2
-      - 1
+      - 0.5
+    - class_name: FreeItemAwarder
+      method_name: ChanceToAwardFreeItem
+      static_method: 1
+      string_parameters:
+      - simple_b
+      int_parameters: 
+      float_parameters:
+      - 0.5
   data_location: ClientPurchaseData
-  deserialization_source: {fileID: 4900000, guid: 152f18ca73979c14f8d306500fad26b9,
+  deserialization_source: {fileID: 4900000, guid: 9f77d30e2964ae64ba35dc57f60ca0a5,
     type: 3}
 --- !u!4 &2123497104
 Transform:

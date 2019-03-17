@@ -30,6 +30,7 @@ public class ModalSystemManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		s_instance = this;
 		m_modal_queue = new List<QueuedModalInfo>();
 		m_modal_is_showing = false;
 		m_modal_rest_position = m_modal_base_transform.anchoredPosition;
@@ -123,6 +124,17 @@ public class ModalSystemManager : MonoBehaviour {
 		m_blocker_image.gameObject.SetActive(false);
 		m_modal_is_showing = false;
 
+	}
+
+	#endregion
+
+	#region Singleton Access
+
+	private static ModalSystemManager s_instance;
+
+	public static ModalSystemManager GetInstance()
+	{
+		return s_instance;
 	}
 
 	#endregion

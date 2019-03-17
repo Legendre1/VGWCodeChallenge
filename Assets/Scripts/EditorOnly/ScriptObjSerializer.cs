@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class ScriptObjSerializer : MonoBehaviour {
 
+#if UNITY_EDITOR
 	public PurchasableItem script_object;
 	public string data_location;
 
@@ -30,5 +33,5 @@ public class ScriptObjSerializer : MonoBehaviour {
 		PurchasableItem deserialized_purchase = JsonUtility.FromJson<PurchasableItem>(deserialization_source.text);
 		script_object = deserialized_purchase;
 	}
-
+#endif
 }

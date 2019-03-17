@@ -176,57 +176,23 @@ public class PurchaseSystemManager : MonoBehaviour {
 		m_currency_owned -= Mathf.RoundToInt(item_purchased.currency_cost * GlobalDiscountManager.GetDiscountFactor());
 		pushCurrencyToBackend();
 
-		//call any on_purchase methods specified
-		if(item_purchased.on_purchase_methods != null)
-		{
-			MethodCallUtility.CallOnPurchaseMethods(item_purchased.on_purchase_methods);
-		}
-		
-
 		//invoke the callback for this purchase, if any
 		if(purchase_callback != null)
 		{
 			purchase_callback(item_purchased);
 		}
 
-		//roll for and award and secondary items this purchase has a chance of granting
-		//awardSecondaryItems(item_purchased, awarded_callback);
+		//call any on_purchase methods specified
+		if(item_purchased.on_purchase_methods != null)
+		{
+			MethodCallUtility.CallOnPurchaseMethods(item_purchased.on_purchase_methods);
+		}
 
 		return true;
-		
 	}
 
-	
-
-	// private void awardSecondaryItems(PurchasableItem item_data, AwardedPurchaseCallback awarded_calback)
-	// {
-	// 	List<PurchasableItem.FreeItemOnPurchase> potential_free_items = item_data.possible_free_items;
-
-	// 	for(int n = 0; n < potential_free_items.Count; n++)
-	// 	{
-	// 		PurchasableItem.FreeItemOnPurchase maybe_free_item = potential_free_items[n];
-
-	// 		float randy = Random.Range(0.0f, 1.0f);
-	// 		if(maybe_free_item.chance_for_free_item >= randy)
-	// 		{
-	// 			//successful roll, find the item
-	// 			PurchasableItem free_item = getPurchasableItemByKey(maybe_free_item.free_item_purchase_key);
-
-	// 			//if it exists, award it and notify the user
-	// 			if(free_item != null)
-	// 			{
-	// 				awarded_calback(free_item);
-	// 				awardPayouts(free_item);
-	// 			}
-
-	// 			//could call this method again if we want the possibility for recursive secondary items. ill avoid for now
-	// 			//awardSecondaryItems(free_item)
-	// 		}
-	// 	}
-	// }
-
 	//New implementation which relies on dictionary storage rather than a list. Complexity = O(1)
-	private PurchasableItem getPurchasableItemByKey(string item_key)
+	public PurchasableItem getPurchasableItemByKey(string item_key)
 	{
 		PurchasableItem result = null;
 
